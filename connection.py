@@ -1,10 +1,19 @@
 from elasticsearch_dsl import connections
+from elasticsearch import Elasticsearch
 
 
-def create_es_connection():
+def create_es_connection() -> Elasticsearch:
+    """ElasticSearch Connection을 만듭니다.
+
+    Raises:
+        e: [description]
+
+    Returns:
+        ElasticSearch: [ElasticSearch Connection]
+    """
     try:
         conn = connections.create_connection(
-            alias="connection", hosts=["localhost"], timeout=60
+            hosts=["localhost:9200"], timeout=60
         )
         return conn
     except Exception as e:

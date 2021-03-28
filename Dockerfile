@@ -1,5 +1,8 @@
 FROM python:3.8-slim-buster as base
-RUN pip install elasticsearch-dsl>=7.0.0
+RUN apt-get update && \
+    apt-get install gcc -y && \
+    apt-get clean
+RUN pip install -r requirements.txt
 WORKDIR /app
 COPY . .
 # VOLUME . .
