@@ -2,7 +2,7 @@ from elasticsearch_dsl import connections
 from elasticsearch import Elasticsearch
 
 
-def create_es_connection() -> Elasticsearch:
+def create_es_connection(host: str, port: int) -> Elasticsearch:
     """ElasticSearch Connection을 만듭니다.
 
     Raises:
@@ -13,7 +13,7 @@ def create_es_connection() -> Elasticsearch:
     """
     try:
         conn = connections.create_connection(
-            hosts=["localhost:9200"], timeout=60
+            hosts=[f"{host}:{port}"], timeout=60
         )
         return conn
     except Exception as e:

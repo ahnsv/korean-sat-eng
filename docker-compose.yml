@@ -3,6 +3,7 @@ version: '3.8'
 services:
   elasticsearch: 
     image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+    container_name: elasticsearch
     ports: 
       - 9200:9200
     environment: 
@@ -14,19 +15,21 @@ services:
       - elastic
   kibana:
     image: docker.elastic.co/kibana/kibana:7.12.0
-    container_name: kib01
+    container_name: kibana
     ports:
       - 5601:5601
     environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-      - ELASTICSEARCH_HOSTS='["http://elasticsearch:9200"]'
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
     networks:
       - elastic
   
   app:
     build: '.'
     container_name: app
+    environment: 
+      - ELASTICSEARCH_HOST: elasticsearch
+      - ELASTICSEARCH_PORT: 9200
     networks: 
       - elastic
 
